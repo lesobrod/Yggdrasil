@@ -1,9 +1,22 @@
 from utilites import *
 
-class Yggdrasil:
+class Node:
+    def __init__(self, data=None, next=None):
+        self.data = data
+        self.next = next
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+
+class Yggdrasil(LinkedList):
     # It's a Chain of levels
     def __init__(self, max_index: int):
         assert 1 < max_index < 100, 'Incorrect levels number'
+        super().__init__()
+
 
 
 class Level:
