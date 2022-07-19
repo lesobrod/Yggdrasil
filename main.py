@@ -2,43 +2,44 @@ from utilites import *
 import math
 
 
-class Node:
-    def __init__(self, next=None):
-        self.next = next
-
-
-class LinkedList:
-    def __init__(self):
-        self.head = None
-
-
-class Yggdrasil(LinkedList):
-    # It's a LinkedList of levels
+class Yggdrasil:
 
     def __init__(self, max_index: int):
         assert 1 < max_index < 100, 'Incorrect levels number'
-        super().__init__()
-        self.levels = []
-        self.head = Level(0, max_index)
-        self.levels.append(self.head)
-        for i in range(1, max_index):
-            self.levels.append(Level(i, None))
-            self.levels[i-1].next = self.levels[i]
+        self.max_index = max_index
+        self.levels = [Level(i, max_index) for i in range(max_index)]
 
     def __str__(self):
         # Печатаем инфу о древе
-        out = 'Yggdrasil:\n'
-        lev = self.head
-        while lev.next is not None:
-            lev = lev.next
-            out += str(lev) + '\n'
+        out = 'Yggdrasil:\n\n'
+        for lev in self.levels:
+            out += str(lev) + '\n\n'
         return out
 
 
-class Point(Node):
+class Level:
+
+    def __init__(self, level_index, max_index):
+        self.index = level_index
+        self.radius = radius(level_index, max_index)
+        self.shift = shift(-0.1, 0.1)
+        self.num_points = number_points(level_index)
+
+        self.points = [Point(self, i) for i in range(self.num_points)]
+
+    def __str__(self):
+        # Печатаем инфу об уровне
+        out = f'Level: {self.index} Radius: {self.radius:.2f} ' \
+              f'Shift: {self.shift:.3f} NumPoints: {self.num_points}'
+        out += '\nPoints:\n'
+        for pt in self.points:
+            out += str(pt) + '\n'
+        return out
+
+
+class Point:
 
     def __init__(self, level, point_index):
-        super().__init__()
         self.index = point_index
         self.level = level
         self.angle = angle(level.shift, point_index, level.num_points)
@@ -48,36 +49,8 @@ class Point(Node):
         self.from_points = []
 
     def __str__(self):
-
-
-
-class Level(Node):
-
-    def __init__(self, level_index, max_index):
-        super().__init__()
-        self.index = level_index
-        self.radius = radius(level_index, max_index)
-        self.shift = shift(-0.1, 0.1)
-        self.num_points = number_points(level_index)
-
-        self.points = LinkedList()
-        self.points.points_list = []
-        self.points.head = Point(self, 0)
-        self.points.points_list.append(self.points.head)
-        for i in range(1, self.num_points):
-            self.points.points_list.append(Point(self, i))
-            self.points.points_list[i - 1].next = self.points.points_list[i]
-        self.points.points_list[i].next = self.points.points_list[0]
-
-    def __str__(self):
-        # Печатаем инфу об уровне
-        out = f'Level: {self.index} Radius: {self.radius} ' \
-              f'Shift: {self.shift} NumPoints: {self.num_points}'
-        out += '\nPoints:'
-        for i in range(self.num_points):
-            out += str(self.points.points_list[i])
-        return out
-
+        return f'Point: {self.index} angle: {self.angle:.3f} \n' \
+               f'to_points: {self.to_points} from_points: {self.from_points}'
 
 
 #     def set_to_points(self):
@@ -94,5 +67,6 @@ class Level(Node):
 #
 
 
-
-
+if __name__ == '__main__':
+    new_tree = Yggdrasil(2)
+    print(new_tree)

@@ -19,10 +19,12 @@ def shift(min, max) -> float:
 
 def number_points(lev: int) -> int:
     # Число точек на уровне. Должно постепенно возрастать
-    return int(random.uniform(lev + 1, 3 * lev))
+    return int(random.uniform(lev + 2, 3 * (lev + 1)))
+
 
 def random_divide(total, num, min, max: int):
     # Число total делиться на num случайных слагаемых, каждое от min max
+    pass
 
 
 if __name__ == '__main__':
