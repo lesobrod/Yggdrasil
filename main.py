@@ -53,20 +53,7 @@ class Point:
                f'to_points: {self.to_points} from_points: {self.from_points}'
 
 
-#     def set_to_points(self):
-#         if self.index == 0:
-#             # Центр связан со всеми точками след уровня
-#             self.points[0].to_points = self.next.points
-#         else:
-#
-#     def set_from_points(self):
-#         if self.index == 0:
-#             # Центр связан со всеми точками след уровня
-#             self.points[0].from_points = self.next.points
-#         else:
-#
-
-
 if __name__ == '__main__':
-    new_tree = Yggdrasil(2)
+    new_tree = Yggdrasil(6)
     print(new_tree)
+    print(set_to_points(new_tree.levels[2], new_tree.levels[1].points[0], 2, 5, 1))
