@@ -23,37 +23,42 @@ class Level:
         self.index = level_index
         self.radius = radius(level_index, max_index)
         self.shift = shift(-0.1, 0.1)
-        self.num_points = number_points(level_index)
+        self.num_buds = number_buds(level_index, max_index)
 
-        self.points = [Point(self, i) for i in range(self.num_points)]
+        self.buds = [Bud(self, i) for i in range(self.num_buds)]
 
     def __str__(self):
         # Печатаем инфу об уровне
         out = f'Level: {self.index} Radius: {self.radius:.2f} ' \
-              f'Shift: {self.shift:.3f} NumPoints: {self.num_points}'
-        out += '\nPoints:\n'
-        for pt in self.points:
+              f'Shift: {self.shift:.3f} NumBuds: {self.num_buds}'
+        out += '\nBuds:\n'
+        for pt in self.buds:
             out += str(pt) + '\n'
         return out
 
 
-class Point:
+class Bud:
 
-    def __init__(self, level, point_index):
-        self.index = point_index
+    def __init__(self, level, bud_index):
+        self.index = bud_index
         self.level = level
-        self.angle = angle(level.shift, point_index, level.num_points)
+        self.angle = angle(level.shift, bud_index, level.num_buds)
         self.x = level.radius * math.cos(self.angle)
         self.y = level.radius * math.sin(self.angle)
-        self.to_points = []
-        self.from_points = []
+        self.to_buds = []
+        self.from_buds = []
 
     def __str__(self):
-        return f'Point: {self.index} angle: {self.angle:.3f} \n' \
-               f'to_points: {self.to_points} from_points: {self.from_points}'
+        return f'Bud: {self.index} Angle: {self.angle:.3f} \n' \
+               f'To_buds: {self.to_buds} From_buds: {self.from_buds}'
 
 
 if __name__ == '__main__':
-    new_tree = Yggdrasil(6)
+    from plot import plot_tree
+    new_tree = Yggdrasil(4)
+    plot_tree(new_tree)
     print(new_tree)
-    print(set_to_points(new_tree.levels[2], new_tree.levels[1].points[0], 2, 5, 1))
+    # print(set_to_buds(next_level: Level, bud: Bud, num_min, num_max, delta_ind: int))
+    # print(find_closest_bud(new_tree.levels[2],
+    #                        new_tree.levels[1].buds[2]))
+    # print(set_to_buds(new_tree.levels[2], new_tree.levels[1].buds[0], 2, 5, 1))
